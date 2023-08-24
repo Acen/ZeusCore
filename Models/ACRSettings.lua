@@ -1,0 +1,2 @@
+---@class ACRSettings
+local ACRSettings = {}

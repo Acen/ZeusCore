@@ -1,0 +1,2 @@
+--- @class ACR
+local ACR = {}
