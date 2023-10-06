@@ -28,38 +28,38 @@ self.tabs = {
         }
     },
 }
-self.social = {
-    [1] = {
-        name = "Discord",
-        link = [[https://discord.gg/]],
-        icon = {
-            path = Zeus.paths.image .. "discord.png",
-            width = 55,
-            height = 55,
-        },
-        tooltip = "Join the blah Discord",
-    },
-    [2] = {
-        name = "Trello",
-        link = [[https://trello.com/]],
-        icon = {
-            path = Zeus.paths.image .. "trello.png",
-            width = 55,
-            height = 55,
-        },
-        tooltip = "View the blah Trello",
-    },
-    [3] = {
-        name = "Ko-fi",
-        link = [[https://ko-fi.com/]],
-        icon = {
-            path = Zeus.paths.image .. "kofi.png",
-            width = 55,
-            height = 60,
-        },
-        tooltip = "Support blah on Ko-fi",
-    },
-}
+--self.social = {
+--    [1] = {
+--        name = "Discord",
+--        link = [[https://discord.gg/]],
+--        icon = {
+--            path = Zeus.paths.image .. "discord.png",
+--            width = 55,
+--            height = 55,
+--        },
+--        tooltip = "Join the blah Discord",
+--    },
+--    [2] = {
+--        name = "Trello",
+--        link = [[https://trello.com/]],
+--        icon = {
+--            path = Zeus.paths.image .. "trello.png",
+--            width = 55,
+--            height = 55,
+--        },
+--        tooltip = "View the blah Trello",
+--    },
+--    [3] = {
+--        name = "Ko-fi",
+--        link = [[https://ko-fi.com/]],
+--        icon = {
+--            path = Zeus.paths.image .. "kofi.png",
+--            width = 55,
+--            height = 60,
+--        },
+--        tooltip = "Support blah on Ko-fi",
+--    },
+--}
 
 -- @function dispatch(eventName, eventArguments, priority, ignoreCache)
 local dispatch = function(...)
@@ -283,24 +283,24 @@ function self.openLink(link, label)
     end
 end
 
-function self.socialIcons()
-    for _, social in ipairs(self.social) do
-        if(social.icon ~= nil) then
-            if(_ ~= 1) then
-                GUI:SameLine(0, 5)
-            end
-            GUI:Image(social.icon.path, social.icon.width, social.icon.height)
-            if(social.tooltip ~= nil) then
-                if(GUI:IsItemHovered()) then
-                    GUI:SetTooltip(social.tooltip)
-                end
-            end
-            if(GUI:IsItemClicked()) then
-                self.openLink(social.link, social.name)
-            end
-        end
-    end
-end
+--function self.socialIcons()
+--    for _, social in ipairs(self.social) do
+--        if(social.icon ~= nil) then
+--            if(_ ~= 1) then
+--                GUI:SameLine(0, 5)
+--            end
+--            GUI:Image(social.icon.path, social.icon.width, social.icon.height)
+--            if(social.tooltip ~= nil) then
+--                if(GUI:IsItemHovered()) then
+--                    GUI:SetTooltip(social.tooltip)
+--                end
+--            end
+--            if(GUI:IsItemClicked()) then
+--                self.openLink(social.link, social.name)
+--            end
+--        end
+--    end
+--end
 
 -- A function that creates a block of GUI:Button
 --function self.quickToggles(buttonList)
@@ -368,7 +368,7 @@ function self.onDraw(_, ...)
                             end
                         end
                     end
-                    self.socialIcons()
+                    --self.socialIcons()
                 GUI:EndChild()
                 GUI:SameLine(0, 0)
                 GUI:BeginChild("##ZeusCore_Options", -1, -1, false, GUI.WindowFlags_AlwaysAutoResize)
