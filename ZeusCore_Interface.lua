@@ -14,9 +14,9 @@ self.tabs = {
     [1] = {
         name = "General",
         image = {
-            path = Zeus.paths.image .. "background.png", -- This is a background for RoseCore. Which is what this was initially developed for.
+            path = Zeus.paths.image .. "background.png",
             width = 180,
-            height = 180,
+            height = 160,
         },
         tooltip = "General Settings",
         options = {
