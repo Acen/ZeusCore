@@ -1,22 +1,7 @@
-Zeus.Events = {
-    moduleName = "Zeus.Events",
+Zeus.Analytics = {
+    moduleName = "Zeus.Analytics",
 }
 local self = Zeus.Events
-self.currentACR = "None"
-
-self.options = {
-    priorities = {
-        low = {
-            minimumTickLength = 1000,
-        },
-        medium = {
-            minimumTickLength = 500,
-        },
-        high = {
-            minimumTickLength = 250,
-        },
-    }
-}
 
 self.eventCache = {}
 
@@ -44,6 +29,7 @@ end
 
 local function fire(eventName, eventArguments)
     if(eventArguments ~= nil and #eventArguments > 0) then
+        -- eventArguments is a table
         QueueEvent(eventName, unpack(eventArguments))
     else
         QueueEvent(eventName, "")
@@ -79,7 +65,6 @@ local function transposeToStrings(eventArguments)
         --    args[k] = v
         --end
     end
-    -- This is a hack to get around the fact that QueueEvent() sometimes needs an empty value on the end of the argument list
     args[#args + 1] = ''
     return args
 end

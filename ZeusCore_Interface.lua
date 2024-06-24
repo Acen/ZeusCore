@@ -14,7 +14,7 @@ self.tabs = {
     [1] = {
         name = "General",
         image = {
-            path = Zeus.paths.image .. "background.png",
+            path = Zeus.paths.image .. "zeus.jpg",
             width = 180,
             height = 160,
         },
@@ -28,38 +28,38 @@ self.tabs = {
         }
     },
 }
---self.social = {
---    [1] = {
---        name = "Discord",
---        link = [[https://discord.gg/]],
---        icon = {
---            path = Zeus.paths.image .. "discord.png",
---            width = 55,
---            height = 55,
---        },
---        tooltip = "Join the blah Discord",
---    },
---    [2] = {
---        name = "Trello",
---        link = [[https://trello.com/]],
---        icon = {
---            path = Zeus.paths.image .. "trello.png",
---            width = 55,
---            height = 55,
---        },
---        tooltip = "View the blah Trello",
---    },
---    [3] = {
---        name = "Ko-fi",
---        link = [[https://ko-fi.com/]],
---        icon = {
---            path = Zeus.paths.image .. "kofi.png",
---            width = 55,
---            height = 60,
---        },
---        tooltip = "Support blah on Ko-fi",
---    },
---}
+self.social = {
+    --[1] = {
+    --    name = "Discord",
+    --    link = [[https://discord.gg/]],
+    --    icon = {
+    --        path = Zeus.paths.image .. "discord.png",
+    --        width = 55,
+    --        height = 55,
+    --    },
+    --    tooltip = "Join the blah Discord",
+    --},
+    --[2] = {
+    --    name = "Trello",
+    --    link = [[https://trello.com/]],
+    --    icon = {
+    --        path = Zeus.paths.image .. "trello.png",
+    --        width = 55,
+    --        height = 55,
+    --    },
+    --    tooltip = "View the blah Trello",
+    --},
+    --[3] = {
+    --    name = "Ko-fi",
+    --    link = [[https://ko-fi.com/]],
+    --    icon = {
+    --        path = Zeus.paths.image .. "kofi.png",
+    --        width = 55,
+    --        height = 60,
+    --    },
+    --    tooltip = "Support blah on Ko-fi",
+    --},
+}
 
 -- @function dispatch(eventName, eventArguments, priority, ignoreCache)
 local dispatch = function(...)
@@ -179,7 +179,13 @@ end
 
 function self.parseOptionSlider(slider, moduleName)
     local value = getSetting(moduleName, slider.id, slider.default)
-    log('parseOptionSlider ' .. slider.id .. ' ' .. value .. 'default: ' .. slider.default)
+    if(value == nil) then
+        value = slider.default
+
+        log('parseOptionSlider ' .. slider.id .. ' ' .. 'nil' .. ' '  .. 'default: ' .. slider.default)
+    else
+        log('parseOptionSlider ' .. slider.id .. ' ' .. value .. ' '  .. 'default: ' .. slider.default)
+    end
     --local storedValue =
     --self.internal.settings[moduleName][slider.id] = storedValue
     local changeSlider
@@ -259,8 +265,7 @@ function self.parseOptions(options, moduleName)
 end
 
 function self.onInitialize(_, ...)
-    log('onInitialize')
-    local icon = Zeus.paths.image .. "icon.png"
+    local icon = Zeus.paths.image .. "zeus.jpg"
     ml_gui.ui_mgr:AddMember({
         id = "FFXIVMINION##MENU_ZeusCore",
         name = "ZeusCore",
@@ -283,45 +288,45 @@ function self.openLink(link, label)
     end
 end
 
---function self.socialIcons()
---    for _, social in ipairs(self.social) do
---        if(social.icon ~= nil) then
---            if(_ ~= 1) then
---                GUI:SameLine(0, 5)
---            end
---            GUI:Image(social.icon.path, social.icon.width, social.icon.height)
---            if(social.tooltip ~= nil) then
---                if(GUI:IsItemHovered()) then
---                    GUI:SetTooltip(social.tooltip)
---                end
---            end
---            if(GUI:IsItemClicked()) then
---                self.openLink(social.link, social.name)
---            end
---        end
---    end
---end
+function self.socialIcons()
+    for _, social in ipairs(self.social) do
+        if(social.icon ~= nil) then
+            if(_ ~= 1) then
+                GUI:SameLine(0, 5)
+            end
+            GUI:Image(social.icon.path, social.icon.width, social.icon.height)
+            if(social.tooltip ~= nil) then
+                if(GUI:IsItemHovered()) then
+                    GUI:SetTooltip(social.tooltip)
+                end
+            end
+            if(GUI:IsItemClicked()) then
+                self.openLink(social.link, social.name)
+            end
+        end
+    end
+end
 
--- A function that creates a block of GUI:Button
---function self.quickToggles(buttonList)
---    for _, button in ipairs(buttonList) do
---        if(button.icon ~= nil) then
---            if(_ ~= 1) then
---                GUI:SameLine(0, 5)
---            end
---            if(GUI:ImageButton("##ZeusCore_" .. button.name .. "Button", button.icon.path, button.icon.width, button.icon.height, 0, 0, 1, 1, 0, 0, 0, 0)) then
---                if(button.tooltip ~= nil) then
---                    if(GUI:IsItemHovered()) then
---                        GUI:SetTooltip(button.tooltip)
---                    end
---                end
---                if(button.onClick ~= nil) then
---                    button.onClick()
---                end
---            end
---        end
---    end
---end
+ --A function that creates a block of GUI:Button
+function self.quickToggles(buttonList)
+    for _, button in ipairs(buttonList) do
+        if(button.icon ~= nil) then
+            if(_ ~= 1) then
+                GUI:SameLine(0, 5)
+            end
+            if(GUI:ImageButton("##ZeusCore_" .. button.name .. "Button", button.icon.path, button.icon.width, button.icon.height, 0, 0, 1, 1, 0, 0, 0, 0)) then
+                if(button.tooltip ~= nil) then
+                    if(GUI:IsItemHovered()) then
+                        GUI:SetTooltip(button.tooltip)
+                    end
+                end
+                if(button.onClick ~= nil) then
+                    button.onClick()
+                end
+            end
+        end
+    end
+end
 
 function self.onDraw(_, ...)
     if(self.open) then
@@ -368,7 +373,7 @@ function self.onDraw(_, ...)
                             end
                         end
                     end
-                    --self.socialIcons()
+                    self.socialIcons()
                 GUI:EndChild()
                 GUI:SameLine(0, 0)
                 GUI:BeginChild("##ZeusCore_Options", -1, -1, false, GUI.WindowFlags_AlwaysAutoResize)

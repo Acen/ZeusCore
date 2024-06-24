@@ -1,3 +1,4 @@
+--- @class Zeus.Debug
 Zeus.Debug = {
     echo = false,
     Console = {
@@ -11,6 +12,7 @@ Zeus.Debug = {
         visible = true
     },
 }
+
 local self = Zeus.Debug
 
 self.Colours = {
@@ -44,6 +46,7 @@ function self.Console.clear()
     self.Console.history = {}
 end
 
+--- @module Zeus.Debug.Console.add
 function self.Console.add(item)
     local message = item.message
     if(self.Console.includeTimestamp) then
@@ -107,15 +110,19 @@ local function splitMessages(messageTable, separator)
     return messages
 end
 
+--- @module Zeus.Debug.Console.log
 function self.Console.log(message, module)
     if(type(message) == "table") then
-        message = splitMessages(message)
-    end
-    if(module == nil) then
-        module = "Zeus"
-    end
+        self.Console.log('logged to d')
+        d(message)
+        --message = splitMessages(message)
+    else
+        if(module == nil) then
+            module = "Zeus"
+        end
 
-    self.Console.info(message, module)
+        self.Console.info(message, module)
+    end
 end
 
 function self.Console.parse(messageTable)

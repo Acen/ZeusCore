@@ -1,4 +1,6 @@
+---@class TestACR : AbstractACR
 Zeus.TestACR = {
+    moduleType = ZeusTypes.ModuleType.ACR,
     moduleName = "Zeus.TestACR", -- Must be the object above
     tab = {
         acrName = "ZeusTestACR",
@@ -6,6 +8,7 @@ Zeus.TestACR = {
         tooltip = "TestACR Settings",
     },
 }
+
 
 local self = Zeus.TestACR -- this is where all our stuff gets stored.
 
@@ -34,11 +37,33 @@ self.GUI = {
 }
 
 self.classes = {
-    [FFXIV.JOBS.SAGE] = true, -- used to differentiate between what classes are supported
+    [FFXIV.JOBS.MACHINIST] = true, -- used to differentiate between what classes are supported
 }
-function self.Cast()
+function self.HotShotCD()
+    return ActionList:Get(1,2872).cd
 end
-
+function self.Cast()
+            if(Zeus.Debug.Console.info ~= nil) then
+                Zeus.Debug.Console.info('returning false')
+                return false
+            end
+    --if(Zeus.Debug.Console.info ~= nil) then
+    --    Zeus.Debug.Console.info('cd: ' .. self.HotShotCD())
+    --end
+    -- loop through a table and print the key/value pairs from the table ActionList:Get(1,2872)
+    --for k,v in pairs(reference1) do
+    --    if(type(v) == 'function') then
+    --        if(Zeus.Debug.Console.info ~= nil) then
+    --            Zeus.Debug.Console.info(k)
+    --        end
+    --    else
+    --        if(Zeus.Debug.Console.info ~= nil) then
+    --            Zeus.Debug.Console.info(k .. ' ' .. tostring(v))
+    --            --Zeus.Debug.Console.info('type' .. type(v))
+    --        end
+    --    end
+    --end
+end
 
 
 function self.OnOpen()

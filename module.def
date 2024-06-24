@@ -2,5 +2,5 @@
 Name=ZeusCore
 Dependencies=minionlib
 Version=1
-Files=ZeusCore.lua,ZeusCore_Debug.lua,ZeusCore_Database.lua,ZeusCore_Interface.lua,ZeusCore_Events.lua,ZeusCore_Settings.lua
+Files=ZeusCore.lua,types/Constants.lua,ZeusCore_Debug.lua,ZeusCore_Database.lua,ZeusCore_Interface.lua,ZeusCore_Events.lua,ZeusCore_Settings.lua
 enabled=1
