@@ -1,3 +1,6 @@
+if(Zeus == nil) then
+    error('Core module not loaded.', 1)
+end
 --- @class Zeus.Database
 Zeus.Database = {
     moduleName = "Zeus.Database",
@@ -61,7 +64,7 @@ local function closeDatabase()
 end
 
 --- @param query string
---- @param callback function(udata, cols, values, names)
+--- @param callback function
 --- @param validation string
 local function executeWithCallback(query, callback, validation)
     openDatabase()

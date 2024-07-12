@@ -42,8 +42,18 @@ function self.getSetting(module, key, default)
         store[module] = {}
     end
     if (store[module][key] == nil) then
+        if(module.type ~= nil) then
+            if(module.type == ZeusType.ModuleType.ACR) then
+                log('module is ACR')
+                store[module][key] = ACR.GetSetting(self.hashedKey(module, key), default)
+                return store[module][key]
+            end
+        end
         log("value didn't exist, using default")
-        store[module][key] = ACR.GetSetting(self.hashedKey(module, key), default)
+        --- Get settings from DB
+        log('getSetting: ' .. module .. '.' .. key)
+        local value = Zeus.Database.readOne('zeus_' .. module, key)
+        store[module][key] = value or default
     end
     return store[module][key]
 end
@@ -63,13 +73,18 @@ end
 function self.toDB(hashedKey, value)
     --- @type Zeus.Database
     local database = Zeus.Database
-    if(Zeus.Database == nil) then
+    if(database == nil) then
         logWarning('database module not available')
         return
     end
     --database.
+    --- Insert or replace the value into the database
+    local query = [[INSERT OR REPLACE INTO settings (hashed_key, value) VALUES (']] .. hashedKey .. [[', ']] .. value .. [[');]]
+    database:exec(query)
 
-    --local query = "INSERT OR REPLACE INTO " .. table .. "(key, value) VALUES ('" .. key .. "', '" .. value .. "');"
+
+
+
     --database:exec(query)
 end
 

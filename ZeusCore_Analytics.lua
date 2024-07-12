@@ -3,6 +3,7 @@ Zeus.Analytics = {
 }
 local self = Zeus.Events
 
+
 self.eventCache = {}
 
 local function log (...)
@@ -56,6 +57,10 @@ local function validateEventArguments(eventArguments)
     return true
 end
 
+---
+--- Transpose event arguments to strings
+--- @param eventArguments table
+--- @return table
 local function transposeToStrings(eventArguments)
     local args = {}
     for k, v in pairs(eventArguments) do

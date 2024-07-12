@@ -21,9 +21,26 @@ self.tabs = {
         tooltip = "General Settings",
         options = {
             {
-                label = "Button Options",
+                label = "Last Write",
                 type = "group",
-                items = {}
+                items =  {
+                    type = "row",
+                    items = {
+                    }
+                }
+            },
+            {
+                label = Zeus.Core.lastWriteValueHumanReadable(),
+                type = "group",
+                items =  {
+                    type = "row",
+                    items = {
+                        {
+                            label = "Healing",
+                            type = "label"
+                        }
+                    }
+                },
             }
         }
     },
@@ -272,7 +289,7 @@ function self.onInitialize(_, ...)
         onClick = function()
             self.open = not self.open
         end,
-        tooltip = "Complete Healing Reactions",
+        tooltip = "PVP Analytics",
         texture = icon
     }, "FFXIVMINION##MENU_HEADER")
 end

@@ -12,6 +12,7 @@ Zeus = {
 Zeus.Core = {
     availableACR = {},
     classAbilities = {},
+    lastWrite = nil,
 }
 local self = Zeus.Core
 local dispatch = function(...)
@@ -32,6 +33,7 @@ local dispatch = function(...)
     end
 end
 
+---
 local function log (...)
     local message = Zeus.Debug.Console.parse(arg)
     if(message ~= nil) then
@@ -128,7 +130,7 @@ function self.loadClassAbilities(force)
     end
 end
 
-function self.onACRAvailable(_, ...)
+function self.onModuleAvailable(_, ...)
     local acrModuleName = arg[1]
     local tab = json.decode(arg[2])
     local settings = json.decode(arg[3])
@@ -141,9 +143,64 @@ function self.onACRAvailable(_, ...)
 
     table.insert(self.availableACR, acrModuleName)
 
-    dispatch('Zeus.Events.LoadACR', {'ZeusCore', acrTab, settings, 'onACRAvailable()'}, 'low', true)
+    dispatch('Zeus.Events.LoadACR', {'ZeusCore', acrTab, settings, 'onModuleAvailable()'}, 'low', true)
+end
+
+function fileExists(filename)
+    local file = io.open(filename, "r")
+    if(file == nil) then
+        return false
+    else
+        file:close()
+        return true
+    end
+end
+
+function self.lastWriteValueHumanReadable()
+    if(Zeus.Core.lastWrite ~= nil) then
+        return Zeus.Core.lastWrite
+    else return "nil" end
+end
+function self.lastWriteValue()
+    if(Zeus.Core.lastWrite ~= nil) then
+        return Zeus.Core.lastWrite
+    else return 0 end
+end
+
+function self.onUpdate()
+    if(self.isInGame()) then
+
+        -- currently dirty. todo package off to modules
+        control = GetControl("MKSRecord")
+        if(control) then
+            log('control available')
+            local data = control:GetRawData()
+            local encodedData = json.encode(data)
+
+            if(os.difftime(os.time(), self.lastWriteValue()) > 120) then
+                log("Last write was over 120 seconds ago, continuing write.")
+                local now = os.date("%Y%m%d%H%M")
+                -- check if file exists before write
+                local filename = "MKSRecord_" .. now .. ".json"
+                if(not fileExists(filename)) then
+                    log("File doesn't exist, writing record.")
+                    local file = io.open("MKSRecord_" .. now .. ".json", "w")
+                    file:write(encodedData)
+                    file:close()
+                    log("Previous lastWrite: " .. self.lastWriteValueHumanReadable())
+                    log("Settings lastWrite to " .. os.time())
+                    Zeus.Core.lastWrite = os.time()
+                else
+                    log("File exists, skipping write.")
+                end
+            else
+                log("Last write was less than 120 seconds ago, skipping write.")
+                log("os.difftime(os.time(), Zeus.Core.lastWrite): " .. os.difftime(os.time(), self.lastWriteValue()))
+            end
+        end
+    end
 end
 
 RegisterEventHandler("Module.Initalize", self.onInitialize, "Zeus.Core.onInitialize")
 RegisterEventHandler("Gameloop.Update", self.onUpdate, "Zeus.Core.onUpdate")
-RegisterEventHandler("Zeus.Events.ACRAvailable", self.onACRAvailable, "Zeus.Core.onACRAvailable")
+RegisterEventHandler("Zeus.Events.ModuleAvailable", self.onModuleAvailable, "Zeus.Core.onModuleAvailable")

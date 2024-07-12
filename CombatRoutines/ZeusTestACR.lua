@@ -73,6 +73,7 @@ function self.OnOpen()
 end
 
 function self.options() -- example options
+    return {}
     local options = {
         {
             label = "Test Options",
@@ -120,6 +121,42 @@ function self.options() -- example options
         },
     }
     return options
+end
+
+--- table to string
+---@param tbl table
+---@return string
+local function serialize(tbl)
+    local tblStr = "{"
+    for k, v in pairs(tbl) do
+        local key
+        if(type(k) == "number") then
+            key = "[" .. k .. "]"
+        else
+            key = k
+        end
+        if(type(v) == "table") then
+            tblStr = tblStr .. key .. "=" .. serialize(v) .. ","
+        elseif(type(v) == "number") then
+            tblStr = tblStr .. key .. "=" .. v .. ","
+        else
+            tblStr = tblStr .. key .. "=\"" .. v .. "\","
+        end
+    end
+    tblStr = tblStr .. "}"
+    return tblStr
+end
+
+--- save a table to a file
+---@param t table
+---@param filename string
+function self.saveTable(t, filename)
+    local file = io.open(filename, "w")
+    if(file) then
+        file:write("return ")
+        file:write(serialize(t))
+        file:close()
+    end
 end
 
 dispatch('Zeus.Events.ACRAvailable', {self.moduleName, self.tab, self.options(), ''}, 'low', true)
